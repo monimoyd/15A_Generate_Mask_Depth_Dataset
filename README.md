@@ -1,6 +1,10 @@
 # 15A_Generate_Mask_Depth_Dataset
 This assignmnet is to create dataset of mask and depth datasets from foreground and background images
 
+Link gdrive for images:
+
+https://drive.google.com/open?id=1o5hPttBP_x5GD37AFYJQ41rvJ9Xdb8n0
+
 # 1.  Problem Statement
 
 We need to generate custom dataset we  must have 100 background, 100x2 (including flip), and you randomly place the foreground on the background 20 times, you have in total 100x200x20 images. 
@@ -11,20 +15,19 @@ In total we MUST have:
     400k depth images
     400k mask images
     generated from:
-     100 backgrounds
-     100 foregrounds, plus their flips
-     20 random placement on each background.
+    100 backgrounds
+    100 foregrounds, plus their flips
+    20 random placement on each background.
      
-     
-     We need to show the statistics of the generated images as well as create a gallery
+We need to show the statistics of the generated images as well as create a gallery
      
 # 2. Link to Gdrive for the images
      
      https://drive.google.com/open?id=1o5hPttBP_x5GD37AFYJQ41rvJ9Xdb8n0
      
-     The directory contains 10 zip files (batch1_images.zip,batch2_images.zip, batch3_images.zip, batch4_images.zip, batch5_images.zip, batch6_images.zip batch7_images.zip, batch8_images.zip, batch9_images.zip, batch10_images.zip)
+  The directory contains 10 zip files (batch1_images.zip,batch2_images.zip, batch3_images.zip, batch4_images.zip, batch5_images.zip, batch6_images.zip batch7_images.zip, batch8_images.zip, batch9_images.zip, batch10_images.zip)
      
-     Each zip file has the following folders:
+  Each zip file has the following folders:
     
      
      fg_jpg : Foreground jpg images of size (80x80) with each image is uniquely numbered across batches e.g. fg_img_91.jpg
@@ -35,8 +38,7 @@ In total we MUST have:
       second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)
       mask_black_jpg: Mask image overlayed on black background with each image is uniquely numbered as
      bg_mask_1_4_0_15 where the first digit 1 represents the foreground image id from which it is generated
-      second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)
-      
+      second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)      
       depth_fg_bg_jpg: JPG images created using the depth model prediction on fg_bg images. The convention for depth_fg_bg_jp is same as corresponding fg_bg_jpg image from which it is generated, only depth_ is prepended to image name.
       
 # 3. Add your dataset statistics:
@@ -65,11 +67,76 @@ In total we MUST have:
      
      We used GIMP tool to generate foreground images with transparency. The full steps with screenshots are givne in:     
      https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf
+     
+     Creation of the data set Foreground image creation with transparency
+
+ 1) Open foreground image in GIMP    
+
+![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen1.png)  
+
+  2) Open ‘view’ tab on the top menu. Open ‘zoom’, select ‘fit image to window’. As soon as you select it the image you opened will be enlarged to fit into the window 
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen2.png)    
+
+
+3) Go to ‘Layer’ tab in the top menu. Select ‘Transparency’, Click on’ Add Alpha Chanel”. There will be no visible changes to the image you opened. 
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen3.png)    
+
+  4) Select on’ Fuzzy Select tool’ on the tools section on your left top. Make a border on the image you opened. If you have made a border but it is not covering the whole image, then Shift + click on the part where there is no border. There will be a border on the image you opened. 
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen4.png)    
+
+
+
+5) Go to ‘edit’ tab on the top menu. Click on ‘clear’.. As soon as you click it the background of the image will be cleared. 
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen5.png)    
+
+
+6) Your foreground image is ready. Now it is time to export the file. For exporting go to ‘file’ tab on the top menu. Click on ‘export as’. As soon as you click a new window will appear. On the window you have to select the location where you have to export the file. If you want to change the image type then you have to go to ’select file type (by extension)’ and press ‘export’. Then you will be prompted by another window. Just press ‘export’ and the image will be exported 
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen6.png)    
+
+
+
+Mask image creation 
+
+1) for mask you can work on the same image you cleared the background. So first go to edit. Click on ’Fill with BG colour. BG stands for background. As soon as you click the background will become black. If the background does not become black press the exchange button on the tool section. It will exchange BG colour with FG colour    
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen7.png)    
+
+  2) Go to ‘select’ in the top menu. Click on ‘invert’. There will be no visible changes to the image. 
+
+3) Go to ‘edit’ in the top menu. Click on ‘Fill with FG colour. FG stands for foreground. As soon as you do that the image will become white. If the image does not become white press the exchange button on the tool section. It will exchange BG colour with FG colour. 
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen8.png)    
+
+
+  4) Your mask is ready. Now it is time to export the file. For exporting go to ‘file’ tab on the top menu. Click on ‘export as’. As soon as you click a new window will appear. On the window you have to select the location where you have to export the file. If you want to change the image type then you have to go to ’select file type (by extension)’ and press ‘export’. Then you will be prompted by another window. Just press ‘export’ and the image will be exported   
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen9.png)    
 
      ## b. how were masks created for fgs
      
   Masks were created using GIP tool, Full steps with screenshots are given in
    https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf
+   
+    Mask image creation 
+
+1) for mask you can work on the same image you cleared the background. So first go to edit. Click on ’Fill with BG colour. BG stands for background. As soon as you click the background will become black. If the background does not become black press the exchange button on the tool section. It will exchange BG colour with FG colour    
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen7.png)    
+
+  2) Go to ‘select’ in the top menu. Click on ‘invert’. There will be no visible changes to the image. 
+
+3) Go to ‘edit’ in the top menu. Click on ‘Fill with FG colour. FG stands for foreground. As soon as you do that the image will become white. If the image does not become white press the exchange button on the tool section. It will exchange BG colour with FG colour. 
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen8.png)    
+
+
+  4) Your mask is ready. Now it is time to export the file. For exporting go to ‘file’ tab on the top menu. Click on ‘export as’. As soon as you click a new window will appear. On the window you have to select the location where you have to export the file. If you want to change the image type then you have to go to ’select file type (by extension)’ and press ‘export’. Then you will be prompted by another window. Just press ‘export’ and the image will be exported   
+
+  ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen9.png)    
+
 		
 
 		
@@ -164,8 +231,9 @@ The gallery for sample of these 400K images are found below:
 
 - We have decided to take grey images as it will take less computation 
 - We have decided to keep 10 batches of images so as to easier manage. For each batch, a separate zip file is created which will have fg, bg, fg_bg, mask, depth_fg_bg, black_msk. This will help in training as unit can be trained independently
-- We have faced issues with colab and many of people report their good account is disabled. So we decided to run it only our own laptop with GPU and as the dataset is split 10 times, it was easier to upload to google drive, each batch of image
-- The depth model when applied was very slow. So we changed teh batch size to 128 and chunks of files processed were 128 at a time. Also Pyplot methods clf() and cla() were used so that images were saved faster
+- We have faced issues with colab and many of people report their good account is disabled. So we decided to run it only our own laptop with GPU and as the dataset is split 10 times, it was easier to upload to google drive, and process the images. 
+- The depth model when applied was very slow. So we changed tehe batch size to 128 and chunks of files processed were 128 at a time. Also Pyplot methods clf() and cla() were used so that images were saved faster
+- We used png images in intermediate step in generation of fg_bg without which we were noticing white patches around the foreground image.
 
 
 
