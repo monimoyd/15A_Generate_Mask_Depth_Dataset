@@ -38,30 +38,50 @@ In total we MUST have:
       second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)
       
       
+      
+      
+      
  # 4. Explain how you created your dataset
      ## a. how were fg created with transparency
      ## b.		how were masks created for fgs
 		
 		- Sooraj
 		
-     ## c. how did you overlay the fg over bg and created 20 variants
+   ## c. how did you overlay the fg over bg and created 20 variants
      
      For each foreground image is overlayed randomly on each of the background image by using paste function of PIL library. We have chosen  (160x160) as dimension for background and (80x80) as dimension for foreground. While generating random position for 
      overlaying foreground on background, integer number is generated 20 times between 0 and 80 for both the x cordinate as well as y cordinate, using the function random.choice with  replace=False so that positions are not repeated. 
      
      In addition the each foreground image is horizonatlly flipped using function transpose from PIL library with option  PILImage.FLIP_LEFT_RIGHT and each of the flipped foreground image is also overlayed randomly on background image
      
-     Similarly,teh mask image corresponding to the foregorund image is overlayed on black background randomly but correpdoing position
-     as the original foreground image is overlayed
+     The  mask image corresponding to the foregorund image is overlayed on black background randomly but correpdoing position
+     as the original foreground image is overlayed. Similary for flipped images the same process is repeated    
      
+     The python script for generating overlay images is
      
+     ![Script for generating fg bg iamges](/generate_fg_bg_images_jpg.py)
      
+     It takes five arguments:
+     
+     argument1 : foreground images directory
+     argument2: Background images directory
+     argument3: Mask Images Directory
+     argument4: Output directory for Overlayed foreground background image 
+     argument5:  Output directory for Overlayed mask images on black backgournd
+ 
 
      
      
-     ## d. how did you create your depth images? 
+   ## d. how did you create your depth images? 
      
-     The depth model is created using 
+     The depth images are created using using the base notebook for depth model given modified. 
+     
+     - Changed code to process grey images by stacking 3 times 
+     - For each batch, Iterate over images lying in fg_bg_jpg direcotry under the respective batch folders and store the images under depth_fg_bg_bng 
+     - Used batch size as 128 and images are processed in a batch of 128 at a time 
+     - Used plt.cla, plt.axis('off') and plt.clf so that Matplotlib saves the images faster
+     
+     The modified code is: ![Jupyter notebook for Dept hModel](/DenseDepth.ipynb)
       
       
       
