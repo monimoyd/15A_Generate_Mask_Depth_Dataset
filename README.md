@@ -18,7 +18,7 @@ In total we MUST have:
      
      We need to show the statistics of the generated images as well as create a gallery
      
-# 2. Link ot Gdrive for the images
+# 2. Link to Gdrive for the images
      
      https://drive.google.com/open?id=1o5hPttBP_x5GD37AFYJQ41rvJ9Xdb8n0
      
