@@ -39,7 +39,7 @@ In total we MUST have:
       
       depth_fg_bg_jpg: JPG images created using the depth model prediction on fg_bg images. The convention for depth_fg_bg_jp is same as corresponding fg_bg_jpg image from which it is generated, only depth_ is prepended to image name.
       
-# 3 2. Add your dataset statistics:
+# 3. Add your dataset statistics:
         Kinds of images : (fg, bg, fg_bg, masks, depth)
         Total images of each kind:
 	fg : 100
@@ -51,10 +51,7 @@ In total we MUST have:
 	
         The total size of the dataset: 6 GB
         Mean/STD values: 
-	fg_bg: 
-	masks
-	depth images
-	
+		
 	ImageType : bg_jpg  Mean : 0.739088,  Std :  0.265235
         ImageType : depth_fg_bg_jpg  Mean : 0.776709,  Std :  0.312767
         ImageType : fg_bg_jpg  Mean : 0.727454,  Std :  0.275896
@@ -65,9 +62,15 @@ In total we MUST have:
       
  # 4. Explain how you created your dataset
      ## a. how were fg created with transparency
-     ## b.		how were masks created for fgs
+     
+     We used GIMP tool to generate foreground images with transparency. The full steps with screenshots are givne in:
+     
+     ![Steps for creating images](/ImageCreationSteps.pdf)
+     ## b. how were masks created for fgs
+     
+     Masks were created using GIP tool, Full steps with screenshots are given in ![Steps for creating images](/ImageCreationSteps.pdf)
 		
-		- Sooraj
+
 		
    ## c. how did you overlay the fg over bg and created 20 variants
      
