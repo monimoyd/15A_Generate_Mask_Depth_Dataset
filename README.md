@@ -65,10 +65,12 @@ In total we MUST have:
      
      We used GIMP tool to generate foreground images with transparency. The full steps with screenshots are givne in:
      
-     ![Steps for creating images](/ImageCreationSteps.pdf)
+     ![](https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf)
+
      ## b. how were masks created for fgs
      
-     Masks were created using GIP tool, Full steps with screenshots are given in ![Steps for creating images](/ImageCreationSteps.pdf)
+  Masks were created using GIP tool, Full steps with screenshots are given in
+   ![](https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf)
 		
 
 		
