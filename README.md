@@ -33,12 +33,12 @@ We need to show the statistics of the generated images as well as create a galle
      fg_jpg : Foreground jpg images of size (80x80) with each image is uniquely numbered across batches e.g. fg_img_91.jpg
      bg_jpg : Background jpeg images of size (160x160) with each image is uniquely numbered  but repeated across batches e.g. bg_img_5.jpg
      mask_jpg: mask jpeg images of size (80x80) with each image is uniquely numbered  but repeated across batches e.g. mask_img_5.jpg
-     fg_bg_jpg : Foreground images overlayed on background images of size (160x160) with each image is uniquely numbered as
+     fg_bg_jpg : Foreground images overlayed on background images of size (160x160) with each image is uniquely numbered, for example
      fg_bg_1_4_0_15 where the first digit 1 represents the foreground image id from which it is generated
-      second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)
-      mask_black_jpg: Mask image overlayed on black background with each image is uniquely numbered as
+     second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)
+     mask_black_jpg: Mask image overlayed on black background with each image is uniquely numbered for example
      bg_mask_1_4_0_15 where the first digit 1 represents the foreground image id from which it is generated
-      second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)      
+    second digit 4 represents the background image id from which it is generated, 0 represents, this image is not flipped (if flipped it will have value 1), last digit 15 represents the sequence number (1-20)      
       depth_fg_bg_jpg: JPG images created using the depth model prediction on fg_bg images. The convention for depth_fg_bg_jp is same as corresponding fg_bg_jpg image from which it is generated, only depth_ is prepended to image name.
       
 # 3. Add your dataset statistics:
@@ -53,22 +53,30 @@ We need to show the statistics of the generated images as well as create a galle
 	
         The total size of the dataset: 6 GB
         Mean/STD values: 
+Mean/Values values are calculated for pixel valued normalized by dividing by 255
+	
+| Category          | Mean          | Standard Deviation  |
+| ----------------- | ------------- |-------------------- |
+| bg_jpg            | 0.739088      | 0.265235            |
+| depth_fg_bg_jpg   | 0.777681      | 0.311899            |
+| fg_bg_jpg         | 0.729304      | 0.271675            |
+| fg_jpg            | 0.851283      | 0.270902            |
+| mask_black_jpg    | 0.068877      | 0.249513            |
+| mask_jpg          | 0.276214      | 0.436924            |
+
 		
-	ImageType : bg_jpg  Mean : 0.739088,  Std :  0.265235
-        ImageType : depth_fg_bg_jpg  Mean : 0.776709,  Std :  0.312767
-        ImageType : fg_bg_jpg  Mean : 0.727454,  Std :  0.275896
-        ImageType : fg_jpg  Mean : 0.822849,  Std :  0.299034
-        ImageType : mask_black_jpg  Mean : 0.084384,  Std :  0.275301
-        ImageType : mask_jpg  Mean : 0.337507,  Std :  0.464947
-      
-      
+The stats are generated using the following code:
+https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/imagestats_std_mean.py
+
+
+            
  # 4. Explain how you created your dataset
-     ## a. how were fg created with transparency
+  ## a. how were fg created with transparency
      
-     We used GIMP tool to generate foreground images with transparency. The full steps with screenshots are givne in:     
-     https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf
+We used GIMP tool to generate foreground images with transparency. The full steps with screenshots are given in:     
+https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf
      
-    Creation of the data set Foreground image creation with transparency
+Creation of the data set Foreground image creation with transparency
 
  1) Open foreground image in GIMP    
 
@@ -102,7 +110,6 @@ We need to show the statistics of the generated images as well as create a galle
   Masks were created using GIP tool, Full steps with screenshots are given in
    https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/ImageCreationSteps.pdf
    
-    Mask image creation 
 
  Mask image creation 
 
@@ -121,39 +128,40 @@ We need to show the statistics of the generated images as well as create a galle
 
   ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Screen9.png)      
 
+	
 		
+  ## c. how did you overlay the fg over bg and created 20 variants
+     
+  For each foreground image is overlayed randomly on each of the background image by using paste function of PIL library. We have chosen  (160x160) as dimension for background and (80x80) as dimension for foreground. While generating random position for 
+   overlaying foreground on background, random integer number is generated 20 times between 0 and 80 for both the x cordinate as well as y cordinate, using the function random.choice with  replace=False so that positions are not repeated. 
+     
+ In addition the each foreground image is horizontally flipped using function transpose from PIL library with option  PILImage.FLIP_LEFT_RIGHT and each of the flipped foreground image is also overlayed randomly on background image
+     
+ The  mask image corresponding to the foregorund image is overlayed on black background randomly but correponding position
+ as the original foreground image is overlayed. Similarly ,for flipped images the same process is repeated    
+     
+The python script for generating overlay images is
+     
+https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/generate_fg_bg_images_jpg.py
 
-		
-   ## c. how did you overlay the fg over bg and created 20 variants
+It can be invoked as:
+python generate_fg_bg_images_jpg.py argument1 argument2 argument3 argument4 argument5
      
-     For each foreground image is overlayed randomly on each of the background image by using paste function of PIL library. We have chosen  (160x160) as dimension for background and (80x80) as dimension for foreground. While generating random position for 
-     overlaying foreground on background, integer number is generated 20 times between 0 and 80 for both the x cordinate as well as y cordinate, using the function random.choice with  replace=False so that positions are not repeated. 
+ It takes five arguments:
      
-     In addition the each foreground image is horizonatlly flipped using function transpose from PIL library with option  PILImage.FLIP_LEFT_RIGHT and each of the flipped foreground image is also overlayed randomly on background image
-     
-     The  mask image corresponding to the foregorund image is overlayed on black background randomly but correpdoing position
-     as the original foreground image is overlayed. Similary for flipped images the same process is repeated    
-     
-     The python script for generating overlay images is
-     
-     https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/generate_fg_bg_images_jpg.py
-     
-     It takes five arguments:
-     
-     argument1 : foreground images directory
-     argument2: Background images directory
-     argument3: Mask Images Directory
-     argument4: Output directory for Overlayed foreground background image 
-     argument5:  Output directory for Overlayed mask images on black backgournd
+ argument1 : Foreground images directory
+ argument2: Background images directory
+ argument3: Mask Images Directory
+ argument4: Output directory for Overlayed foreground background image 
+ argument5: Output directory for Overlayed mask images on black backgournd
  
-
      
      
    ## d. how did you create your depth images? 
      
-     The depth images are created using using the base notebook for depth model given modified. 
+     The depth images are created by modifying the DenseDepth.ipynb given with the following changes. 
      
-     - Changed code to process grey images by stacking 3 times 
+     - Changed code to process grey images by stacking 3 times so that expected dimensions of DenseDepth model match
      - For each batch, Iterate over images lying in fg_bg_jpg direcotry under the respective batch folders and store the images under depth_fg_bg_bng 
      - Used batch size as 128 and images are processed in a batch of 128 at a time 
      - Used plt.cla, plt.axis('off') and plt.clf so that Matplotlib saves the images faster
@@ -163,7 +171,7 @@ We need to show the statistics of the generated images as well as create a galle
      
  # 3. Show your dataset the way I have shown above in this readme     
      
-     ## Python Code for generating gallery for  BackGround Scenary,ForeGround,coressponding Masks,ForeGround-Background,ForeGround-BackGround Mask and Depth Model Output images :
+ ## Python Code for generating gallery for  BackGround Scenary,ForeGround,coressponding Masks,ForeGround-Background,ForeGround-BackGround Mask and Depth Model Output images :
 
 https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/GalleryUtil.ipynb
 
@@ -211,11 +219,11 @@ The gallery for sample of these 400K images are found below:
 
 ![](https://github.com/sudhakarmlal/EVA4/blob/master/Session14-15/Images/Depth.png)
 
-5.Design Choices and Issues faced
+# 5.Design Choices and Issues faced and how we resolved
 
-- We have decided to take grey images as it will take less computation 
-- We have decided to keep 10 batches of images so as to easier manage. For each batch, a separate zip file is created which will have fg, bg, fg_bg, mask, depth_fg_bg, black_msk. This will help in training as unit can be trained independently
-- We have faced issues with colab and many of people report their good account is disabled. So we decided to run it only our own laptop with GPU and as the dataset is split 10 times, it was easier to upload to google drive, and process the images. 
+- We have decided to take grey images as it will take less computation and less size 
+- We have decided to keep 10 batches of images so as to easier manage. For each batch, a separate zip file is created which will have fg, bg, fg_bg, mask, depth_fg_bg, black_mask. This will help in training as a unit can be trained independently. Also while uploading, downloading it will take less time. Also unzipping time will be less
+- We have faced issues with colab and many of people report their google account is disabled. So we decided to run it only our own laptop with GPU and as the dataset is split 10 times, it was easier to upload to google drive, and process the images. 
 - The depth model when applied was very slow. So we changed tehe batch size to 128 and chunks of files processed were 128 at a time. Also Pyplot methods clf() and cla() were used so that images were saved faster
 - We used png images in intermediate step in generation of fg_bg without which we were noticing white patches around the foreground image.
 
