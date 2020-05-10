@@ -85,7 +85,7 @@ In total we MUST have:
      
      The python script for generating overlay images is
      
-     ![Script for generating fg bg iamges](/generate_fg_bg_images_jpg.py)
+     https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/generate_fg_bg_images_jpg.py
      
      It takes five arguments:
      
@@ -107,7 +107,8 @@ In total we MUST have:
      - Used batch size as 128 and images are processed in a batch of 128 at a time 
      - Used plt.cla, plt.axis('off') and plt.clf so that Matplotlib saves the images faster
      
-     The modified code is: ![Jupyter notebook for Dept hModel](/DenseDepth.ipynb)
+     The modified code is: 
+     https://github.com/monimoyd/15A_Generate_Mask_Depth_Dataset/blob/master/DenseDepth.ipynb
      
  # 3. Show your dataset the way I have shown above in this readme     
      
